@@ -121,7 +121,6 @@
             animation: pulse 1s infinite;
             color: #ff0000;
             text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 55px #ff0000;
-
         }
 
         @keyframes pulse {
@@ -135,6 +134,64 @@
 
             100% {
                 transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+            }
+
+            .carousel img {
+                max-width: 200px;
+                height: 200px;
+            }
+
+            .arrow {
+                font-size: 18px;
+                padding: 8px;
+            }
+
+            .prev {
+                left: -20px;
+            }
+
+            .next {
+                right: -20px;
+            }
+
+            #contador {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(6, 1fr);
+            }
+
+            .carousel img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .arrow {
+                font-size: 16px;
+                padding: 6px;
+            }
+
+            .prev {
+                left: -10px;
+            }
+
+            .next {
+                right: -10px;
+            }
+
+            #contador {
+                font-size: 1.2em;
             }
         }
     </style>
@@ -209,6 +266,7 @@
         function closeModal() {
             document.getElementById("imageModal").style.display = "none";
         }
+
         function updateContador() {
             const startDate = new Date('2024-10-12T00:00:00');
             const now = new Date();
