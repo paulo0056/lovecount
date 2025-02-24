@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Tempo Juntos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .main-image {
+            width: 60%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .carousel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 100%;
+            max-width: 280px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .carousel img:hover {
+            transform: scale(1.05);
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .prev {
+            left: -40px;
+            display: none;
+        }
+
+        .next {
+            right: -40px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        #contador {
+            font-size: 3em;
+            animation: pulse 1s infinite;
+            color: #ff0000;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 55px #ff0000;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Nosso Tempo Juntos</h1>
+    <div id="contador"></div>
+    <img src="assets/fotoamor.jpeg" alt="Nosso momento" class="main-image">
+
+    <h1>Nossos Momentos Juntos</h1>
+    <div class="carousel-container">
+        <button class="arrow prev" onclick="prevSlide()">&#10094;</button>
+        <div class="carousel" id="carousel"></div>
+        <button class="arrow next" onclick="nextSlide()">&#10095;</button>
+    </div>
+
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img id="modalImg">
+    </div>
+
+    <script>
+        const images = [
+            "assets/eueela.png", "assets/fotopm.jpeg", "assets/fotocafe.jpeg",
+            "assets/japa.jpeg", "assets/japa2.jpeg", "assets/mataleao.jpeg",
+            "assets/fotoacademia2.jpeg", "assets/fotoacademia.jpeg", "assets/fotoacademia3.jpeg",
+            "assets/fotoacademia4.jpeg", "assets/fotoacademia5.jpeg", "assets/fotoacademia6.jpeg",
+            "assets/fotoacademia7.jpeg", "assets/shopping.jpeg", "assets/shopping2.jpeg",
+            "assets/shopping3.jpeg", "assets/shopping4.jpeg", "assets/cafe2.jpeg",
+            "assets/shoppingkiss.jpeg", "assets/igreja.jpeg", "assets/igreja2.jpeg",
+            "assets/igreja3.jpeg", "assets/igreja4.jpeg", "assets/fedorento.jpeg"
+        ];
+
+        let currentIndex = 0;
+        const itemsPerPage = 6;
+        const carousel = document.getElementById("carousel");
+
+        function renderCarousel() {
+            carousel.innerHTML = "";
+            for (let i = currentIndex; i < currentIndex + itemsPerPage && i < images.length; i++) {
+                const img = document.createElement("img");
+                img.src = images[i];
+                img.alt = `Momento ${i + 1}`;
+                img.onclick = () => openModal(images[i]);
+                carousel.appendChild(img);
+            }
+
+            document.querySelector(".prev").style.display = currentIndex === 0 ? "none" : "block";
+            document.querySelector(".next").style.display = currentIndex + itemsPerPage >= images.length ? "none" : "block";
+        }
+
+        function nextSlide() {
+            if (currentIndex + itemsPerPage < images.length) {
+                currentIndex += itemsPerPage;
+                renderCarousel();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex - itemsPerPage >= 0) {
+                currentIndex -= itemsPerPage;
+                renderCarousel();
+            }
+        }
+
+        function openModal(src) {
+            document.getElementById("modalImg").src = src;
+            document.getElementById("imageModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+        function updateContador() {
+            const startDate = new Date('2024-10-12T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('contador').innerHTML =
+                `${years} anos, ${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+        }
+
+        setInterval(updateContador, 1000);
+        updateContador();
+        renderCarousel();
+    </script>
+</body>
+
+</html>
